@@ -17,15 +17,16 @@ module WebsterClay
         d = Chef::DataBag.new
         d.name(data_bag)
         d.save
-        begin
-          Chef::DataBagItem.load(data_bag, lock_name)
-        rescue Net::HTTPServerException
-          Chef::Log.debug("Creating data bag item: #{lock_name}")
-          i = Chef::DataBagItem.new
-          i.data_bag(data_bag)
-          i.raw_data = {'id' => lock_name}
-          i.save
-        end
+      end
+      
+      begin
+        Chef::DataBagItem.load(data_bag, lock_name)
+      rescue Net::HTTPServerException
+        Chef::Log.debug("Creating data bag item: #{lock_name}")
+        i = Chef::DataBagItem.new
+        i.data_bag(data_bag)
+        i.raw_data = {'id' => lock_name}
+        i.save
       end
     end
 
